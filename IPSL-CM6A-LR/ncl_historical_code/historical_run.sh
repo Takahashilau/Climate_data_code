@@ -1,5 +1,5 @@
-ncl dv500_extract.ncl
-ncl dvs_extract.ncl
+#ncl dv500_extract.ncl
+#ncl dvs_extract.ncl
 ncl hur500_extract.ncl
 ncl hurs_extract.ncl
 ncl hus500_extract.ncl

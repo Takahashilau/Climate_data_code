@@ -1,6 +1,6 @@
 function get_normalise_par()
 begin
-    mainPath = "/home/taka/Passport/CMIP6/IPSL-CM6A-LR"
+    mainPath = "/mnt/e/CMIP6/IPSL-CM6A-LR"
     pslFiles = systemfunc("ls " + mainPath + "/historical/psl_*.nc")
 
     psl_list1 = new((/1/),double)
@@ -12,30 +12,30 @@ begin
     psl_list7 = new((/1/),double)
     psl_list8 = new((/1/),double)
 
-    do i = 0, dimsizes(pslsFiles)-1
-        f = addfile(pslFiles(i), "r")
-        pslT42 := flt2dble(f->psl) ;; todouble()不能保存metadata，flt2dble()可以。
-        pslT42 := f2gsh_Wrap(pslT42, (/64, 128/), 0)
-        print((/i/)) ;;signal
+    i = 0
+    f = addfile(pslFiles(i), "r")
+    pslT42 := flt2dble(f->psl) ;; todouble()不能保存metadata，flt2dble()可以。
+    pslT42 := f2gsh_Wrap(pslT42, (/64, 128/), 0)
+    print((/i/)) ;;signal
 
-        pslGrid1 := pslT42(:,43,34)
-        pslGrid2 := pslT42(:,40,35)
-        pslGrid3 := pslT42(:,41,35)
-        pslGrid4 := pslT42(:,42,35)
-        pslGrid5 := pslT42(:,43,35)
-        pslGrid6 := pslT42(:,39,36)
-        pslGrid7 := pslT42(:,40,36) 
-        pslGrid8 := pslT42(:,41,36)
+    pslGrid1 := pslT42(:,43,34)
+    pslGrid2 := pslT42(:,40,35)
+    pslGrid3 := pslT42(:,41,35)
+    pslGrid4 := pslT42(:,42,35)
+    pslGrid5 := pslT42(:,43,35)
+    pslGrid6 := pslT42(:,39,36)
+    pslGrid7 := pslT42(:,40,36) 
+    pslGrid8 := pslT42(:,41,36)
 
-        psl_list1 := array_append_record(psl_list1, pslGrid1, 0)
-        psl_list2 := array_append_record(psl_list2, pslGrid2, 0)
-        psl_list3 := array_append_record(psl_list3, pslGrid3, 0)
-        psl_list4 := array_append_record(psl_list4, pslGrid4, 0)
-        psl_list5 := array_append_record(psl_list5, pslGrid5, 0)
-        psl_list6 := array_append_record(psl_list6, pslGrid6, 0)
-        psl_list7 := array_append_record(psl_list7, pslGrid7, 0)
-        psl_list8 := array_append_record(psl_list8, pslGrid8, 0)
-    end do
+    psl_list1 := array_append_record(psl_list1, pslGrid1, 0)
+    psl_list2 := array_append_record(psl_list2, pslGrid2, 0)
+    psl_list3 := array_append_record(psl_list3, pslGrid3, 0)
+    psl_list4 := array_append_record(psl_list4, pslGrid4, 0)
+    psl_list5 := array_append_record(psl_list5, pslGrid5, 0)
+    psl_list6 := array_append_record(psl_list6, pslGrid6, 0)
+    psl_list7 := array_append_record(psl_list7, pslGrid7, 0)
+    psl_list8 := array_append_record(psl_list8, pslGrid8, 0)
+
 
     ;; 1850:1:1-1970:12:31 共121*365+29=44194天。加 1 成为序列开头
     ;; 1971:1:1-2000:12:31 共10958天，8个闰年。44195+10958-1=55152
@@ -61,7 +61,7 @@ begin
 end
 
 begin
-    mainPath = "/home/taka/Passport/CMIP6/IPSL-CM6A-LR"
+    mainPath = "/mnt/e/CMIP6/IPSL-CM6A-LR"
     pslFiles = systemfunc("ls " + mainPath + "/historical/psl_*.nc")
 
     psl_list1 = new((/1/), double, 0)
@@ -75,58 +75,58 @@ begin
 
     nor_par = get_normalise_par()
 
-    do i = dimsizes(pslFiles)-1, dimsizes(pslFiles)-1
-        f = addfile(pslFiles(i), "r")
-        pslT42 := flt2dble(f->psl) ;; todouble()不能保存metadata，flt2dble()可以。
-        pslT42 := f2gsh_Wrap(pslT42, (/64, 128/), 0)
-        print((/i/)) ;;signal
+    i = 0
+    f = addfile(pslFiles(i), "r")
+    pslT42 := flt2dble(f->psl) ;; todouble()不能保存metadata，flt2dble()可以。
+    pslT42 := f2gsh_Wrap(pslT42, (/64, 128/), 0)
+    print((/i/)) ;;signal
 
-        mean1 := nor_par(0)
-        std1 := nor_par(1)
-        Grid1 := pslT42(:,43,34)
-        pslGrid1 := where(Grid1.ne.Grid1@_FillValue, (Grid1-mean1)/std1, Grid1@_FillValue)
-        mean2 := nor_par(2)
-        std2 := nor_par(3)
-        Grid2 := pslT42(:,40,35)
-        pslGrid2 := where(Grid2.ne.Grid2@_FillValue, (Grid2-mean2)/std2, Grid2@_FillValue) 
-        mean3 := nor_par(4)
-        std3 := nor_par(5)
-        Grid3 := pslT42(:,41,35)
-        pslGrid3 := where(Grid3.ne.Grid3@_FillValue, (Grid3-mean3)/std3, Grid3@_FillValue)
-        mean4 := nor_par(6)
-        std4 := nor_par(7)
-        Grid4 := pslT42(:,42,35)
-        pslGrid4 := where(Grid4.ne.Grid4@_FillValue, (Grid4-mean4)/std4, Grid4@_FillValue)
-        mean5 := nor_par(8)
-        std5 := nor_par(9)
-        Grid5 := pslT42(:,43,35)
-        pslGrid5 := where(Grid5.ne.Grid5@_FillValue, (Grid5-mean5)/std5, Grid5@_FillValue)
-        mean6 := nor_par(10)
-        std6 := nor_par(11)
-        Grid6 := pslT42(:,39,36)
-        pslGrid6 := where(Grid6.ne.Grid6@_FillValue, (Grid6-mean6)/std6, Grid6@_FillValue) 
-        mean7 := nor_par(12)
-        std7 := nor_par(13)
-        Grid7 := pslT42(:,40,36)
-        pslGrid7 := where(Grid7.ne.Grid7@_FillValue, (Grid7-mean7)/std7, Grid7@_FillValue)
-        mean8 := nor_par(14)
-        std8 := nor_par(15)
-        Grid8 := pslT42(:,41,36)
-        pslGrid8 := where(Grid8.ne.Grid8@_FillValue, (Grid8-mean8)/std8, Grid8@_FillValue) 
+    mean1 := nor_par(0)
+    std1 := nor_par(1)
+    Grid1 := pslT42(:,43,34)
+    pslGrid1 := where(Grid1.ne.Grid1@_FillValue, (Grid1-mean1)/std1, Grid1@_FillValue)
+    mean2 := nor_par(2)
+    std2 := nor_par(3)
+    Grid2 := pslT42(:,40,35)
+    pslGrid2 := where(Grid2.ne.Grid2@_FillValue, (Grid2-mean2)/std2, Grid2@_FillValue) 
+    mean3 := nor_par(4)
+    std3 := nor_par(5)
+    Grid3 := pslT42(:,41,35)
+    pslGrid3 := where(Grid3.ne.Grid3@_FillValue, (Grid3-mean3)/std3, Grid3@_FillValue)
+    mean4 := nor_par(6)
+    std4 := nor_par(7)
+    Grid4 := pslT42(:,42,35)
+    pslGrid4 := where(Grid4.ne.Grid4@_FillValue, (Grid4-mean4)/std4, Grid4@_FillValue)
+    mean5 := nor_par(8)
+    std5 := nor_par(9)
+    Grid5 := pslT42(:,43,35)
+    pslGrid5 := where(Grid5.ne.Grid5@_FillValue, (Grid5-mean5)/std5, Grid5@_FillValue)
+    mean6 := nor_par(10)
+    std6 := nor_par(11)
+    Grid6 := pslT42(:,39,36)
+    pslGrid6 := where(Grid6.ne.Grid6@_FillValue, (Grid6-mean6)/std6, Grid6@_FillValue) 
+    mean7 := nor_par(12)
+    std7 := nor_par(13)
+    Grid7 := pslT42(:,40,36)
+    pslGrid7 := where(Grid7.ne.Grid7@_FillValue, (Grid7-mean7)/std7, Grid7@_FillValue)
+    mean8 := nor_par(14)
+    std8 := nor_par(15)
+    Grid8 := pslT42(:,41,36)
+    pslGrid8 := where(Grid8.ne.Grid8@_FillValue, (Grid8-mean8)/std8, Grid8@_FillValue) 
 
-        psl_list1 := array_append_record(psl_list1, pslGrid1, 0)
-        psl_list2 := array_append_record(psl_list2, pslGrid2, 0)
-        psl_list3 := array_append_record(psl_list3, pslGrid3, 0)
-        psl_list4 := array_append_record(psl_list4, pslGrid4, 0)
-        psl_list5 := array_append_record(psl_list5, pslGrid5, 0)
-        psl_list6 := array_append_record(psl_list6, pslGrid6, 0)
-        psl_list7 := array_append_record(psl_list7, pslGrid7, 0)
-        psl_list8 := array_append_record(psl_list8, pslGrid8, 0)
-    end do
+    psl_list1 := array_append_record(psl_list1, pslGrid1, 0)
+    psl_list2 := array_append_record(psl_list2, pslGrid2, 0)
+    psl_list3 := array_append_record(psl_list3, pslGrid3, 0)
+    psl_list4 := array_append_record(psl_list4, pslGrid4, 0)
+    psl_list5 := array_append_record(psl_list5, pslGrid5, 0)
+    psl_list6 := array_append_record(psl_list6, pslGrid6, 0)
+    psl_list7 := array_append_record(psl_list7, pslGrid7, 0)
+    psl_list8 := array_append_record(psl_list8, pslGrid8, 0)
+
 
     ;; 1850:1:1-1960:12:31 共111*365+27=40542天。加 1 成为序列开头
     ;; 1961:1:1-2005:12:31 共16436天，40543+16436-1=56978
-    outPath = "/home/taka/Passport/Climate_data_code/IPSL-CM6A-LR/sdsm_historical_file/psl_sdsm_file"
+    outPath = "/mnt/e/Climate_data_code/IPSL-CM6A-LR/sdsm_historical_file/psl_sdsm_file"
     opt1 = True
     opt1@fout = outPath + "/ipshmslpg1.dat"
     write_matrix(transpose(psl_list1(40543:56978)), "f9.3", opt1)

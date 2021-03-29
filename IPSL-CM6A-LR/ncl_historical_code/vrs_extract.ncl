@@ -1,6 +1,6 @@
 function get_normalise_par()
 begin
-    mainPath = "/home/taka/Passport/CMIP6/IPSL-CM6A-LR"
+    mainPath = "/mnt/e/CMIP6/IPSL-CM6A-LR"
     uasFiles = systemfunc("ls " + mainPath + "/historical/uas_*.nc")
     vasFiles = systemfunc("ls " + mainPath + "/historical/vas_*.nc")
 
@@ -13,34 +13,34 @@ begin
     vrs_list7 = new((/1/), double, 0)
     vrs_list8 = new((/1/), double, 0)
 
-    do i = 0, dimsizes(uasFiles)-1
-        f1 = addfile(uasFiles(i), "r")
-        f2 = addfile(vasFiles(i), "r")
-        uasT42 := flt2dble(f1->uas) ;; todouble()不能保存metadata，flt2dble()可以。
-        vasT42 := flt2dble(f2->vas)
-        uasT42 := f2gsh_Wrap(uasT42, (/64, 128/), 0)
-        vasT42 := f2gsh_Wrap(vasT42, (/64, 128/), 0)
-        vrsT42 := uv2vrG_Wrap(uasT42, vasT42)
-        print((/i/)) ;;signal
+    i = 0
+    f1 = addfile(uasFiles(i), "r")
+    f2 = addfile(vasFiles(i), "r")
+    uasT42 := flt2dble(f1->uas) ;; todouble()不能保存metadata，flt2dble()可以。
+    vasT42 := flt2dble(f2->vas)
+    uasT42 := f2gsh_Wrap(uasT42, (/64, 128/), 0)
+    vasT42 := f2gsh_Wrap(vasT42, (/64, 128/), 0)
+    vrsT42 := uv2vrG_Wrap(uasT42, vasT42)
+    print((/i/)) ;;signal
 
-        vrsGrid1 := vrsT42(:,43,34)
-        vrsGrid2 := vrsT42(:,40,35)
-        vrsGrid3 := vrsT42(:,41,35)
-        vrsGrid4 := vrsT42(:,42,35)
-        vrsGrid5 := vrsT42(:,43,35)
-        vrsGrid6 := vrsT42(:,39,36)
-        vrsGrid7 := vrsT42(:,40,36) 
-        vrsGrid8 := vrsT42(:,41,36)
+    vrsGrid1 := vrsT42(:,43,34)
+    vrsGrid2 := vrsT42(:,40,35)
+    vrsGrid3 := vrsT42(:,41,35)
+    vrsGrid4 := vrsT42(:,42,35)
+    vrsGrid5 := vrsT42(:,43,35)
+    vrsGrid6 := vrsT42(:,39,36)
+    vrsGrid7 := vrsT42(:,40,36) 
+    vrsGrid8 := vrsT42(:,41,36)
 
-        vrs_list1 := array_append_record(vrs_list1, vrsGrid1, 0)
-        vrs_list2 := array_append_record(vrs_list2, vrsGrid2, 0)
-        vrs_list3 := array_append_record(vrs_list3, vrsGrid3, 0)
-        vrs_list4 := array_append_record(vrs_list4, vrsGrid4, 0)
-        vrs_list5 := array_append_record(vrs_list5, vrsGrid5, 0)
-        vrs_list6 := array_append_record(vrs_list6, vrsGrid6, 0)
-        vrs_list7 := array_append_record(vrs_list7, vrsGrid7, 0)
-        vrs_list8 := array_append_record(vrs_list8, vrsGrid8, 0)
-    end do
+    vrs_list1 := array_append_record(vrs_list1, vrsGrid1, 0)
+    vrs_list2 := array_append_record(vrs_list2, vrsGrid2, 0)
+    vrs_list3 := array_append_record(vrs_list3, vrsGrid3, 0)
+    vrs_list4 := array_append_record(vrs_list4, vrsGrid4, 0)
+    vrs_list5 := array_append_record(vrs_list5, vrsGrid5, 0)
+    vrs_list6 := array_append_record(vrs_list6, vrsGrid6, 0)
+    vrs_list7 := array_append_record(vrs_list7, vrsGrid7, 0)
+    vrs_list8 := array_append_record(vrs_list8, vrsGrid8, 0)
+
 
     ;; 1850:1:1-1970:12:31 共121*365+29=44194天。加 1 成为序列开头
     ;; 1971:1:1-2000:12:31 共10958天，8个闰年。44195+10958-1=55152
@@ -66,7 +66,7 @@ begin
 end
 
 begin
-    mainPath = "/home/taka/Passport/CMIP6/IPSL-CM6A-LR"
+    mainPath = "/mnt/e/CMIP6/IPSL-CM6A-LR"
     uasFiles = systemfunc("ls " + mainPath + "/historical/uas_*.nc")
     vasFiles = systemfunc("ls " + mainPath + "/historical/vas_*.nc")
 
@@ -81,62 +81,62 @@ begin
 
     nor_par = get_normalise_par()
 
-    do i = dimsizes(uaFiles)-1, dimsizes(uaFiles)-1
-        f1 = addfile(uasFiles(i), "r")
-        f2 = addfile(vasFiles(i), "r")
-        uasT42 := flt2dble(f1->uas) ;; todouble()不能保存metadata，flt2dble()可以。
-        vasT42 := flt2dble(f2->vas)
-        uasT42 := f2gsh_Wrap(uasT42, (/64, 128/), 0)
-        vasT42 := f2gsh_Wrap(vasT42, (/64, 128/), 0)
-        vrsT42 := uv2vrG_Wrap(uasT42, vasT42)
-        print((/i/)) ;;signal
+    i = 0
+    f1 = addfile(uasFiles(i), "r")
+    f2 = addfile(vasFiles(i), "r")
+    uasT42 := flt2dble(f1->uas) ;; todouble()不能保存metadata，flt2dble()可以。
+    vasT42 := flt2dble(f2->vas)
+    uasT42 := f2gsh_Wrap(uasT42, (/64, 128/), 0)
+    vasT42 := f2gsh_Wrap(vasT42, (/64, 128/), 0)
+    vrsT42 := uv2vrG_Wrap(uasT42, vasT42)
+    print((/i/)) ;;signal
 
-        mean1 := nor_par(0)
-        std1 := nor_par(1)
-        Grid1 := vrsT42(:,43,34)
-        vrsGrid1 := where(Grid1.ne.Grid1@_FillValue, (Grid1-mean1)/std1, Grid1@_FillValue)
-        mean2 := nor_par(2)
-        std2 := nor_par(3)
-        Grid2 := vrsT42(:,40,35)
-        vrsGrid2 := where(Grid2.ne.Grid2@_FillValue, (Grid2-mean2)/std2, Grid2@_FillValue) 
-        mean3 := nor_par(4)
-        std3 := nor_par(5)
-        Grid3 := vrsT42(:,41,35)
-        vrsGrid3 := where(Grid3.ne.Grid3@_FillValue, (Grid3-mean3)/std3, Grid3@_FillValue)
-        mean4 := nor_par(6)
-        std4 := nor_par(7)
-        Grid4 := vrsT42(:,42,35)
-        vrsGrid4 := where(Grid4.ne.Grid4@_FillValue, (Grid4-mean4)/std4, Grid4@_FillValue)
-        mean5 := nor_par(8)
-        std5 := nor_par(9)
-        Grid5 := vrsT42(:,43,35)
-        vrsGrid5 := where(Grid5.ne.Grid5@_FillValue, (Grid5-mean5)/std5, Grid5@_FillValue)
-        mean6 := nor_par(10)
-        std6 := nor_par(11)
-        Grid6 := vrsT42(:,39,36)
-        vrsGrid6 := where(Grid6.ne.Grid6@_FillValue, (Grid6-mean6)/std6, Grid6@_FillValue) 
-        mean7 := nor_par(12)
-        std7 := nor_par(13)
-        Grid7 := vrsT42(:,40,36)
-        vrsGrid7 := where(Grid7.ne.Grid7@_FillValue, (Grid7-mean7)/std7, Grid7@_FillValue)
-        mean8 := nor_par(14)
-        std8 := nor_par(15)
-        Grid8 := vrsT42(:,41,36)
-        vrsGrid8 := where(Grid8.ne.Grid8@_FillValue, (Grid8-mean8)/std8, Grid8@_FillValue) 
+    mean1 := nor_par(0)
+    std1 := nor_par(1)
+    Grid1 := vrsT42(:,43,34)
+    vrsGrid1 := where(Grid1.ne.Grid1@_FillValue, (Grid1-mean1)/std1, Grid1@_FillValue)
+    mean2 := nor_par(2)
+    std2 := nor_par(3)
+    Grid2 := vrsT42(:,40,35)
+    vrsGrid2 := where(Grid2.ne.Grid2@_FillValue, (Grid2-mean2)/std2, Grid2@_FillValue) 
+    mean3 := nor_par(4)
+    std3 := nor_par(5)
+    Grid3 := vrsT42(:,41,35)
+    vrsGrid3 := where(Grid3.ne.Grid3@_FillValue, (Grid3-mean3)/std3, Grid3@_FillValue)
+    mean4 := nor_par(6)
+    std4 := nor_par(7)
+    Grid4 := vrsT42(:,42,35)
+    vrsGrid4 := where(Grid4.ne.Grid4@_FillValue, (Grid4-mean4)/std4, Grid4@_FillValue)
+    mean5 := nor_par(8)
+    std5 := nor_par(9)
+    Grid5 := vrsT42(:,43,35)
+    vrsGrid5 := where(Grid5.ne.Grid5@_FillValue, (Grid5-mean5)/std5, Grid5@_FillValue)
+    mean6 := nor_par(10)
+    std6 := nor_par(11)
+    Grid6 := vrsT42(:,39,36)
+    vrsGrid6 := where(Grid6.ne.Grid6@_FillValue, (Grid6-mean6)/std6, Grid6@_FillValue) 
+    mean7 := nor_par(12)
+    std7 := nor_par(13)
+    Grid7 := vrsT42(:,40,36)
+    vrsGrid7 := where(Grid7.ne.Grid7@_FillValue, (Grid7-mean7)/std7, Grid7@_FillValue)
+    mean8 := nor_par(14)
+    std8 := nor_par(15)
+    Grid8 := vrsT42(:,41,36)
+    vrsGrid8 := where(Grid8.ne.Grid8@_FillValue, (Grid8-mean8)/std8, Grid8@_FillValue) 
 
-        vrs_list1 := array_append_record(vrs_list1, vrsGrid1, 0)
-        vrs_list2 := array_append_record(vrs_list2, vrsGrid2, 0)
-        vrs_list3 := array_append_record(vrs_list3, vrsGrid3, 0)
-        vrs_list4 := array_append_record(vrs_list4, vrsGrid4, 0)
-        vrs_list5 := array_append_record(vrs_list5, vrsGrid5, 0)
-        vrs_list6 := array_append_record(vrs_list6, vrsGrid6, 0)
-        vrs_list7 := array_append_record(vrs_list7, vrsGrid7, 0)
-        vrs_list8 := array_append_record(vrs_list8, vrsGrid8, 0)
-    end do
+    vrs_list1 := array_append_record(vrs_list1, vrsGrid1, 0)
+    vrs_list2 := array_append_record(vrs_list2, vrsGrid2, 0)
+    vrs_list3 := array_append_record(vrs_list3, vrsGrid3, 0)
+    vrs_list4 := array_append_record(vrs_list4, vrsGrid4, 0)
+    vrs_list5 := array_append_record(vrs_list5, vrsGrid5, 0)
+    vrs_list6 := array_append_record(vrs_list6, vrsGrid6, 0)
+    vrs_list7 := array_append_record(vrs_list7, vrsGrid7, 0)
+    vrs_list8 := array_append_record(vrs_list8, vrsGrid8, 0)
+
 
     ;; 1850:1:1-1960:12:31 共111*365+27=40542天。加 1 成为序列开头
     ;; 1961:1:1-2005:12:31 共16436天，40543+16436-1=56978
-    outPath = "/home/taka/Passport/Climate_data_code/IPSL-CM6A-LR/sdsm_historical_file/vrs_sdsm_file"
+    outPath = "/mnt/e/Climate_data_code/IPSL-CM6A-LR/sdsm_historical_file/vrs_sdsm_file"
     opt1 = True
     opt1@fout = outPath + "/ipshp__zg1.dat"
     write_matrix(transpose(vrs_list1(40543:56978)), "f9.3", opt1)
