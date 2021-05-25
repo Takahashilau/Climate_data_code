@@ -1,6 +1,6 @@
 function get_normalise_par()
 begin
-    mainPath = "/mnt/d/CMIP6/NCEP_RAW_NC"
+    mainPath = "/mnt/e/CMIP6/NCEP_RAW_NC"
     pr_wtrFiles = systemfunc("ls " + mainPath + "/pr/pr_wtr*.nc")
     pr_wtrFiles := pr_wtrFiles(10:40)
 
@@ -16,6 +16,7 @@ begin
     do i = 0, 29
         f = addfile(pr_wtrFiles(i), "r")
         pr_wtr := flt2dble(f->pr_wtr) ;; todouble()不能保存metadata，flt2dble()可以。
+        pr_wtr := pr_wtr(:,::-1,:)
         pr_wtrT42 := f2gsh_Wrap(pr_wtr, (/64, 128/), 0)
         print((/i/)) ;;signal
 
@@ -60,7 +61,7 @@ begin
 end
 
 begin
-    mainPath = "/mnt/d/CMIP6/NCEP_RAW_NC"
+    mainPath = "/mnt/e/CMIP6/NCEP_RAW_NC"
     pr_wtrFiles = systemfunc("ls " + mainPath + "/pr/pr_wtr*.nc")
 
     pr_wtr_list1 = new((/1/), double, 0)
@@ -77,6 +78,7 @@ begin
     do i = 0, 44
         f = addfile(pr_wtrFiles(i), "r")
         pr_wtr := flt2dble(f->pr_wtr) ;; todouble()不能保存metadata，flt2dble()可以。
+        pr_wtr := pr_wtr(:,::-1,:)
         pr_wtrT42 := f2gsh_Wrap(pr_wtr, (/64, 128/), 0)
         print((/i/)) ;;signal
 
@@ -123,7 +125,7 @@ begin
         pr_wtr_list8 := array_append_record(pr_wtr_list8, pr_wtrGrid8, 0)
     end do
 
-    outPath = "/mnt/d/Climate_data_code/sdsm_ncep_file/pr_sdsm_file"
+    outPath = "/mnt/e/Climate_data_code/MIROC6/sdsm_ncep_file/pr_sdsm_file"
     opt1 = True
     opt1@fout = outPath + "/ncepprcpg1.dat"
     write_matrix(transpose(pr_wtr_list1(1:)), "f9.3", opt1)

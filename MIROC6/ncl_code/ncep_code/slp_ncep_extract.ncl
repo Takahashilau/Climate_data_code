@@ -1,6 +1,6 @@
 function get_normalise_par()
 begin
-    mainPath = "/mnt/d/CMIP6/NCEP_RAW_NC"
+    mainPath = "/mnt/e/CMIP6/NCEP_RAW_NC"
     slpFiles = systemfunc("ls " + mainPath + "/slp/slp*.nc")
     slpFiles := slpFiles(10:40)
 
@@ -16,6 +16,7 @@ begin
     do i = 0, 29
         f = addfile(slpFiles(i), "r")
         slp := flt2dble(f->slp) ;; todouble()不能保存metadata，flt2dble()可以。
+        slp := slp(:,::-1,:)
         slpT42 := f2gsh_Wrap(slp, (/64, 128/), 0)
         print((/i/)) ;;signal
 
@@ -60,7 +61,7 @@ begin
 end
 
 begin
-    mainPath = "/mnt/d/CMIP6/NCEP_RAW_NC"
+    mainPath = "/mnt/e/CMIP6/NCEP_RAW_NC"
     slpFiles = systemfunc("ls " + mainPath + "/slp/slp*.nc")
 
     slp_list1 = new((/1/), double, 0)
@@ -77,6 +78,7 @@ begin
     do i = 0, 44
         f = addfile(slpFiles(i), "r")
         slp := flt2dble(f->slp) ;; todouble()不能保存metadata，flt2dble()可以。
+        slp := slp(:,::-1,:)
         slpT42 := f2gsh_Wrap(slp, (/64, 128/), 0)
         print((/i/)) ;;signal
 
@@ -123,7 +125,7 @@ begin
         slp_list8 := array_append_record(slp_list8, slpGrid8, 0)
     end do
 
-    outPath = "/mnt/d/Climate_data_code/sdsm_ncep_file/slp_sdsm_file"
+    outPath = "/mnt/e/Climate_data_code/MIROC6/sdsm_ncep_file/slp_sdsm_file"
     opt1 = True
     opt1@fout = outPath + "/ncepmslpg1.dat"
     write_matrix(transpose(slp_list1(1:)), "f9.3", opt1)

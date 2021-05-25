@@ -1,6 +1,6 @@
 function get_normalise_par()
 begin
-    mainPath = "/mnt/d/CMIP6/NCEP_RAW_NC"
+    mainPath = "/mnt/e/CMIP6/NCEP_RAW_NC"
     uwndFiles = systemfunc("ls " + mainPath + "/u-wind/uwnd*.nc")
     vwndFiles = systemfunc("ls " + mainPath + "/v-wind/vwnd*.nc")
     uwndFiles := uwndFiles(10:40)
@@ -20,6 +20,8 @@ begin
         f2 = addfile(vwndFiles(i), "r")
         uwnd := flt2dble(f1->uwnd(:,5,:,:))
         vwnd := flt2dble(f2->vwnd(:,5,:,:)) ;; todouble()不能保存metadata，flt2dble()可以。
+        uwnd := uwnd(:,::-1,:)
+        vwnd := vwnd(:,::-1,:)
         uwndT42 := f2gsh_Wrap(uwnd, (/64, 128/), 0)
         vwndT42 := f2gsh_Wrap(vwnd, (/64, 128/), 0)
         wsT42 := wind_speed(uwndT42, vwndT42)
@@ -66,7 +68,7 @@ begin
 end
 
 begin
-    mainPath = "/mnt/d/CMIP6/NCEP_RAW_NC"
+    mainPath = "/mnt/e/CMIP6/NCEP_RAW_NC"
     uwndFiles = systemfunc("ls " + mainPath + "/u-wind/uwnd*.nc")
     vwndFiles = systemfunc("ls " + mainPath + "/v-wind/vwnd*.nc")
 
@@ -86,6 +88,8 @@ begin
         f2 = addfile(vwndFiles(i), "r")
         uwnd := flt2dble(f1->uwnd(:,5,:,:))
         vwnd := flt2dble(f2->vwnd(:,5,:,:)) ;; todouble()不能保存metadata，flt2dble()可以。
+        uwnd := uwnd(:,::-1,:)
+        vwnd := vwnd(:,::-1,:)
         uwndT42 := f2gsh_Wrap(uwnd, (/64, 128/), 0)
         vwndT42 := f2gsh_Wrap(vwnd, (/64, 128/), 0)
         wsT42 := wind_speed(uwndT42, vwndT42)
@@ -134,7 +138,7 @@ begin
         ws_list8_500 := array_append_record(ws_list8_500, wsGrid8_500, 0)
     end do
 
-    outPath = "/mnt/d/Climate_data_code/sdsm_ncep_file/ws500_sdsm_file"
+    outPath = "/mnt/e/Climate_data_code/MIROC6/sdsm_ncep_file/ws500_sdsm_file"
     opt1 = True
     opt1@fout = outPath + "/ncepp5_fg1.dat"
     write_matrix(transpose(ws_list1_500(1:)), "f9.3", opt1)

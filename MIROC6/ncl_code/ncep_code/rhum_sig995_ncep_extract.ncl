@@ -1,6 +1,6 @@
 function get_normalise_par()
 begin
-    mainPath = "/mnt/d/CMIP6/NCEP_RAW_NC"
+    mainPath = "/mnt/e/CMIP6/NCEP_RAW_NC"
     rhumFiles = systemfunc("ls " + mainPath + "/rhum_sig995/rhum.sig995*.nc")
     rhumFiles := rhumFiles(10:40)
 
@@ -16,6 +16,7 @@ begin
     do i = 0, 29
         f = addfile(rhumFiles(i), "r")
         rhum := flt2dble(f->rhum) ;; todouble()不能保存metadata，flt2dble()可以。
+        rhum := rhum(:,::-1,:)
         rhumT42 := f2gsh_Wrap(rhum, (/64, 128/), 0)
         print((/i/)) ;;signal
 
@@ -60,7 +61,7 @@ begin
 end
 
 begin
-    mainPath = "/mnt/d/CMIP6/NCEP_RAW_NC"
+    mainPath = "/mnt/e/CMIP6/NCEP_RAW_NC"
     rhumFiles = systemfunc("ls " + mainPath + "/rhum_sig995/rhum.sig995*.nc")
 
     rhum_list1_995 = new((/1/), double, 0)
@@ -77,6 +78,7 @@ begin
     do i = 0, 44
         f = addfile(rhumFiles(i), "r")
         rhum := flt2dble(f->rhum) ;; todouble()不能保存metadata，flt2dble()可以。
+        rhum := rhum(:,::-1,:)
         rhumT42 := f2gsh_Wrap(rhum, (/64, 128/), 0)
         print((/i/)) ;;signal
 
@@ -123,7 +125,7 @@ begin
         rhum_list8_995 := array_append_record(rhum_list8_995, rhumGrid8_995, 0)
     end do
 
-    outPath = "/mnt/d/Climate_data_code/sdsm_ncep_file/rhum995_sdsm_file"
+    outPath = "/mnt/e/Climate_data_code/MIROC6/sdsm_ncep_file/rhum995_sdsm_file"
     opt1 = True
     opt1@fout = outPath + "/nceprhumg1.dat"
     write_matrix(transpose(rhum_list1_995(1:)), "f9.3", opt1)

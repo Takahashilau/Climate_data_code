@@ -20,16 +20,23 @@ def copyFile(src, dst):
             if regex in file:
                 shutil.copy(file, dst.format(i))
 
-inPath = ["D:/Climate_data_code/sdsm_input_file",
-        "D:/Climate_data_code/sdsm_ssp126_file",
-        "D:/Climate_data_code/sdsm_ssp245_file",
-        "D:/Climate_data_code/sdsm_ssp585_file",
-        "D:/Climate_data_code/sdsm_ncep_file"]
-outPath = ["D:/DownScale_SDSM_DATA/Grid{}/MIROC6_historical_1961_2005/",
-        "D:/DownScale_SDSM_DATA/Grid{}/MIROC6_ssp126_2015_2100/",
-        "D:/DownScale_SDSM_DATA/Grid{}/MIROC6_ssp245_2015_2100/",
-        "D:/DownScale_SDSM_DATA/Grid{}/MIROC6_ssp585_2015_2100/",
-        "D:/DownScale_SDSM_DATA/Grid{}/NCEP-NCAR_1961_2005/"]
+inPath = ["E:/Climate_data_code/MRI-ESM2-0/sdsm_historical_file",
+        "E:/Climate_data_code/MRI-ESM2-0/sdsm_ssp126_file",
+        "E:/Climate_data_code/MRI-ESM2-0/sdsm_ssp245_file",
+        "E:/Climate_data_code/MRI-ESM2-0/sdsm_ssp585_file"]
+        #"E:/Climate_data_code/sdsm_ncep_file"]
+outPath = ["E:/DownScale_SDSM_DATA/Grid{}/MRI-ESM2-0_historical_1961_2005/",
+        "E:/DownScale_SDSM_DATA/Grid{}/MRI-ESM2-0_ssp126_2015_2100/",
+        "E:/DownScale_SDSM_DATA/Grid{}/MRI-ESM2-0_ssp245_2015_2100/",
+        "E:/DownScale_SDSM_DATA/Grid{}/MRI-ESM2-0_ssp585_2015_2100/"]
+        #"E:/DownScale_SDSM_DATA/Grid{}/NCEP-NCAR_1961_2005/"]
+
+for i in range(1, 9):
+    for path in outPath:
+        if not os.path.exists(path.format(i)):
+            os.mkdir(path.format(i))
 
 for i in range(len(inPath)):
     copyFile(inPath[i], outPath[i])
+
+#copyFile("E:/Climate_data_code/MIROC6/sdsm_ncep_file", "E:/DownScale_SDSM_DATA/Grid{}/NCEP-NCAR_1961_2005/")

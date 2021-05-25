@@ -1,6 +1,6 @@
 function get_normalise_par()
 begin
-    mainPath = "/mnt/d/CMIP6/NCEP_RAW_NC"
+    mainPath = "/mnt/e/CMIP6/NCEP_RAW_NC"
     shumFiles = systemfunc("ls " + mainPath + "/shum/shum*.nc")
     shumFiles := shumFiles(10:40)
 
@@ -16,6 +16,7 @@ begin
     do i = 0, 29
         f = addfile(shumFiles(i), "r")
         shum := flt2dble(f->shum(:,5,:,:)) ;; todouble()不能保存metadata，flt2dble()可以。
+        shum := shum(:,::-1,:)
         shumT42 := f2gsh_Wrap(shum, (/64, 128/), 0)
         print((/i/)) ;;signal
 
@@ -60,7 +61,7 @@ begin
 end
 
 begin
-    mainPath = "/mnt/d/CMIP6/NCEP_RAW_NC"
+    mainPath = "/mnt/e/CMIP6/NCEP_RAW_NC"
     shumFiles = systemfunc("ls " + mainPath + "/shum/shum*.nc")
 
     shum_list1_500 = new((/1/), double, 0)
@@ -77,6 +78,7 @@ begin
     do i = 0, 44
         f = addfile(shumFiles(i), "r")
         shum := flt2dble(f->shum(:,5,:,:)) ;; todouble()不能保存metadata，flt2dble()可以。
+        shum := shum(:,::-1,:)
         shumT42 := f2gsh_Wrap(shum, (/64, 128/), 0)
         print((/i/)) ;;signal
 
@@ -123,7 +125,7 @@ begin
         shum_list8_500 := array_append_record(shum_list8_500, shumGrid8_500, 0)
     end do
 
-    outPath = "/mnt/d/Climate_data_code/sdsm_ncep_file/shum500_sdsm_file"
+    outPath = "/mnt/e/Climate_data_code/MIROC6/sdsm_ncep_file/shum500_sdsm_file"
     opt1 = True
     opt1@fout = outPath + "/nceps500g1.dat"
     write_matrix(transpose(shum_list1_500(1:)), "f9.3", opt1)

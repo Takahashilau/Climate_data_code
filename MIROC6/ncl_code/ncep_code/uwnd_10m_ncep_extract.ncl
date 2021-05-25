@@ -1,6 +1,6 @@
 function get_normalise_par()
 begin
-    mainPath = "/mnt/d/CMIP6/NCEP_RAW_NC"
+    mainPath = "/mnt/e/CMIP6/NCEP_RAW_NC"
     uwndFiles = systemfunc("ls " + mainPath + "/u-wind_10m/uwnd.10m*.nc")
     uwndFiles := uwndFiles(10:40)
 
@@ -16,6 +16,7 @@ begin
     do i = 0, 29
         f = addfile(uwndFiles(i), "r")
         uwnd := flt2dble(f->uwnd) ;; todouble()不能保存metadata，flt2dble()可以。
+        uwnd := uwnd(:,::-1,:)
         uwndT42 := f2gsh_Wrap(uwnd, (/64, 128/), 0)
         print((/i/)) ;;signal
 
@@ -60,7 +61,7 @@ begin
 end
 
 begin
-    mainPath = "/mnt/d/CMIP6/NCEP_RAW_NC"
+    mainPath = "/mnt/e/CMIP6/NCEP_RAW_NC"
     uwndFiles = systemfunc("ls " + mainPath + "/u-wind_10m/uwnd.10m*.nc")
 
     uwnd_list1_10m = new((/1/), double, 0)
@@ -77,6 +78,7 @@ begin
     do i = 0, 44
         f = addfile(uwndFiles(i), "r")
         uwnd := flt2dble(f->uwnd) ;; todouble()不能保存metadata，flt2dble()可以。
+        uwnd := uwnd(:,::-1,:)
         uwndT42 := f2gsh_Wrap(uwnd, (/64, 128/), 0)
         print((/i/)) ;;signal
 
@@ -123,7 +125,7 @@ begin
         uwnd_list8_10m := array_append_record(uwnd_list8_10m, uwndGrid8_10m, 0)
     end do
 
-    outPath = "/mnt/d/Climate_data_code/sdsm_ncep_file/uwnd10m_sdsm_file"
+    outPath = "/mnt/e/Climate_data_code/MIROC6/sdsm_ncep_file/uwnd10m_sdsm_file"
     opt1 = True
     opt1@fout = outPath + "/ncepp__ug1.dat"
     write_matrix(transpose(uwnd_list1_10m(1:)), "f9.3", opt1)

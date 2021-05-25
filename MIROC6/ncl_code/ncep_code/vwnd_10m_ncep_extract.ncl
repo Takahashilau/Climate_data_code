@@ -1,6 +1,6 @@
 function get_normalise_par()
 begin
-    mainPath = "/mnt/d/CMIP6/NCEP_RAW_NC"
+    mainPath = "/mnt/e/CMIP6/NCEP_RAW_NC"
     vwndFiles = systemfunc("ls " + mainPath + "/v-wind_10m/vwnd.10m*.nc")
     vwndFiles := vwndFiles(10:40)
 
@@ -16,6 +16,7 @@ begin
     do i = 0, 29
         f = addfile(vwndFiles(i), "r")
         vwnd := flt2dble(f->vwnd) ;; todouble()不能保存metadata，flt2dble()可以。
+        vwnd := vwnd(:,::-1,:)
         vwndT42 := f2gsh_Wrap(vwnd, (/64, 128/), 0)
         print((/i/)) ;;signal
 
@@ -60,7 +61,7 @@ begin
 end
 
 begin
-    mainPath = "/mnt/d/CMIP6/NCEP_RAW_NC"
+    mainPath = "/mnt/e/CMIP6/NCEP_RAW_NC"
     vwndFiles = systemfunc("ls " + mainPath + "/v-wind_10m/vwnd.10m*.nc")
 
     vwnd_list1_10m = new((/1/), double, 0)
@@ -77,6 +78,7 @@ begin
     do i = 0, 44
         f = addfile(vwndFiles(i), "r")
         vwnd := flt2dble(f->vwnd) ;; todouble()不能保存metadata，flt2dble()可以。
+        vwnd := vwnd(:,::-1,:)
         vwndT42 := f2gsh_Wrap(vwnd, (/64, 128/), 0)
         print((/i/)) ;;signal
 
@@ -123,7 +125,7 @@ begin
         vwnd_list8_10m := array_append_record(vwnd_list8_10m, vwndGrid8_10m, 0)
     end do
 
-    outPath = "/mnt/d/Climate_data_code/sdsm_ncep_file/vwnd10m_sdsm_file"
+    outPath = "/mnt/e/Climate_data_code/MIROC6/sdsm_ncep_file/vwnd10m_sdsm_file"
     opt1 = True
     opt1@fout = outPath + "/ncepp__vg1.dat"
     write_matrix(transpose(vwnd_list1_10m(1:)), "f9.3", opt1)

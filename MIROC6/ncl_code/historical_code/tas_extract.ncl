@@ -1,6 +1,6 @@
 function get_normalise_par()
 begin
-    mainPath = "/mnt/d/CMIP6/MIROC6"
+    mainPath = "/mnt/e/CMIP6/MIROC6"
     tasFiles = systemfunc("ls " + mainPath + "/historical/tas*.nc")
     tasFiles := tasFiles(1:)
 
@@ -16,6 +16,7 @@ begin
     do i = 0, 3
         f = addfile(tasFiles(i), "r")
         tas := flt2dble(f->tas) ;; todouble()不能保存metadata，flt2dble()可以。
+        tas := tas -273.15
         tasT42 := f2gsh_Wrap(tas, (/64, 128/), 0)
         print((/i/)) ;;signal
 
@@ -68,7 +69,7 @@ begin
 end
 
 begin
-    mainPath = "/mnt/d/CMIP6/MIROC6"
+    mainPath = "/mnt/e/CMIP6/MIROC6"
     tasFiles = systemfunc("ls " + mainPath + "/historical/tas*.nc")
 
     tas_list1 = new((/1/), double, 0)
@@ -85,6 +86,7 @@ begin
     do i = 0, 4
         f = addfile(tasFiles(i), "r")
         tas := flt2dble(f->tas) ;; todouble()不能保存metadata，flt2dble()可以。
+        tas := tas -273.15
         tasT42 := f2gsh_Wrap(tas, (/64, 128/), 0)
         print((/i/)) ;;signal
 
@@ -139,7 +141,7 @@ begin
         tas_list8 := array_append_record(tas_list8, tasGrid8, 0)
     end do
 
-    outPath = "/mnt/d/Climate_data_code/sdsm_input_file/tas_sdsm_file"
+    outPath = "/mnt/e/Climate_data_code/MIROC6/sdsm_input_file/tas_sdsm_file"
     opt1 = True
     opt1@fout = outPath + "/mirhtempg1.dat"
     write_matrix(transpose(tas_list1(1:16436)), "f9.3", opt1)
